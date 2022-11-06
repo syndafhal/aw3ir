@@ -264,7 +264,7 @@ En bouclant sur `URLSearchParams`, pour chaque nous récupérer un tableau avec 
 -  et sa valeur
    
   
-<div style="text-align:center">
+<div  align="center">
 <center>
   <img src="searchparam_loo.png">
 
@@ -318,5 +318,5 @@ if (param[0] === "email") {
 ```
 
 <hr/>
-<div style="text-align:center">
+<div  align="center">
 <center> ~ Fin du TP ~  </center></div>
