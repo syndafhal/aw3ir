@@ -265,10 +265,12 @@ En bouclant sur `URLSearchParams`, pour chaque nous récupérer un tableau avec 
    
   
 <div style="text-align:center">
+<center>
   <img src="searchparam_loo.png">
 
   
 Affichage des informations dans la console de débuggage du navigateur 
+</center>
   </div>
 
 
@@ -316,4 +318,5 @@ if (param[0] === "email") {
 ```
 
 <hr/>
-<div style="text-align:center"> ~ Fin du TP ~  </div>
+<div style="text-align:center">
+<center> ~ Fin du TP ~  </center></div>
