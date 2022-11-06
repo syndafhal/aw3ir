@@ -1,6 +1,7 @@
 <div  align="center">
 TP2
-![Logo galille](https://github.com/bilelz/tpaw/blob/master/galilee.png?raw=true)
+
+<img src="https://github.com/bilelz/tpaw/blob/master/galilee.png?raw=true" alt="logo" width="50"/>
 
 Master 3IR
 TP AW #2 : HTML & Javascript
