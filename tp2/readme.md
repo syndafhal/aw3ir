@@ -7,12 +7,7 @@ TP AW #2 : HTML & Javascript
 
 Validation de formulaire et lecture de données en JavaScript.
 
-Support technique : 
- - http://www.w3schools.com/js/default.asp
- - https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form
-
-TP AW #2 : HTML, CSS & Javascript
-
+ 
 <img src="tp2-2022_input_ok.png" alt="Cas d'un champ valide"/>
 
 </div>
@@ -34,6 +29,12 @@ TP AW #2 : HTML, CSS & Javascript
 #  Plate-forme de développement : 
 * [Visual Studio Code](https://code.visualstudio.com), Eclipse ou un Éditeur de texte (notepad++, emacs, …)
 * Navigateur web (Google Chrome ou Mozilla Firefox)
+
+
+Support technique : 
+ - http://www.w3schools.com/js/default.asp
+ - https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form
+
 
  # Spécification des champs de saisie
 
