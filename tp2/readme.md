@@ -12,8 +12,11 @@ Support technique :
 
 TP AW #2 : HTML, CSS & Javascript
 
+<img src="tp2-2022_input_ok.png" alt="Cas d'un champ valide"/>
+
 
 - [Plate-forme de développement :](#plate-forme-de-développement-)
+- [Spécification des champs de saisie](#spécification-des-champs-de-saisie)
 - [1. Formulaire HTML](#1-formulaire-html)
 - [2.  Style CSS du formulaire](#2--style-css-du-formulaire)
     - [2.1. Cas du formulaire non valide](#21-cas-du-formulaire-non-valide)
@@ -25,9 +28,16 @@ TP AW #2 : HTML, CSS & Javascript
   - [Lien de courriel pour l'email](#lien-de-courriel-pour-lemail)
 
 
- 
 
-Le formulaire permettra de saisir les informations suivantes :
+#  Plate-forme de développement : 
+* [Visual Studio Code](https://code.visualstudio.com), Eclipse ou un Éditeur de texte (notepad++, emacs, …)
+* Navigateur web (Google Chrome ou Mozilla Firefox)
+
+ # Spécification des champs de saisie
+
+Le formulaire utilisera la méthode d'envoi `get` et enverra les informations saisie à la page "action.html".
+
+Les champs de saisie, avec leurs contraintes techniques, sont les suivants :
 * Nom (type: `text`, id: `name`, minimum: 2 caractères, max: 20 car.)
 * Prénom (type: `text`, id: `firstname`, minimum: 2 caractères, max: 20 car.)
 * Date de naissance (type: `date`, id: `birthday`)
@@ -35,14 +45,10 @@ Le formulaire permettra de saisir les informations suivantes :
 * Adresse mail (type: `email`, id: `email`, minimum: 5 caractères, max: 30 car.)
 * 👉Tous ces champs de saisie sont obligatoires (👉 attribut `required` https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/required)
 
-#  Plate-forme de développement : 
-* [Visual Studio Code](https://code.visualstudio.com), Eclipse ou un Éditeur de texte (notepad++, emacs, …)
-* Navigateur web (Google Chrome ou Mozilla Firefox)
-
 # 1. Formulaire HTML
 
   - Dans le votre dossier **tp2**, modifier le fichier index.html
-  - Écrire le code HTML pour afficher tous les champs de saisies (la mise en forme se fera plus tard)
+  - Écrire le code HTML pour afficher tous les champs de saisie `input` (la mise en forme se fera plus tard dans ce TP)
   <img src="tp2-2022_without_css.png" alt="texte pour le titre, facultatif"/>
   
   - On utilisera la balise `form` qui enverra les informations du formulaire vers une page `action.html` 
@@ -54,7 +60,7 @@ Le formulaire permettra de saisir les informations suivantes :
   - Documentation sur les formulaires : https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form
 
  - Chaque champ de saisie `input`  devra avoir  :
-     - les attributs HTML adéquates pour respecter le spécificités données plus haut 
+     - les attributs HTML adéquates pour respecter les spécifications détaillées plus haut 
      - un label associé
      - un émoji `✔` pour indiquer que la saisie est valide        
 
@@ -83,7 +89,9 @@ Exemple de code HTML pour le champ "prénom" :
 
 # 2.  Style CSS du formulaire
    <img src="tp2-2022.png" alt="texte pour le titre, facultatif"/>
+
   Créer un fichier `style.css` et y faire référence dans le fichier `index.html`
+
   ```html
   <link rel="stylesheet" href="style.css" />
    ```
@@ -168,17 +176,20 @@ Exemple de code HTML pour le champ "prénom" :
   
 # 3. Page action.html - lecture des données en javascript
 Les données sont envoyées à cette page via l'URL et seront visibles dans la barre d'adresse sous cette forme : 
+
 `?name=John&firstname=Doe&birthday=2000-01-01&address=Valencia&email=john%40doe.com`
- - Créer un fichier action.html
- - Créer un fichier action.js qui va contenir le code Javascript où l'URL sera lue.
+ 1. Créer un fichier action.html
+ 2. Créer un fichier action.js qui va contenir le code Javascript où l'URL sera lue.
  
- - Y faire référence dans votre code HTML (entre les balises HEAD) de la page action.html
+    - Y faire référence dans votre code HTML (entre les balises HEAD) de la page action.html
  ` <script type="text/javascript" src="action.js"></script> `
 
- - Faire référence aussi à la feuille CSS utilisée précédement
+ 3. Faire référence aussi à la feuille CSS utilisée précédement
     ```html
     <link rel="stylesheet" href="style.css" />
     ```
+
+
 Dans le fichier HTML, nous devons écrire la structure HTML pour afficher les données réçues par le formulaire : 
 
 <img src="action.png">
@@ -230,6 +241,8 @@ window.onload = () => { // https://developer.mozilla.org/fr/docs/Web/API/Window/
 
   // Iterating the search parameters
   for (const param of searchParams) {
+    console.log(param);
+
     const elementId = param[0];
     const elementValue = param[1];
     const element = document.getElementById(elementId);
@@ -250,7 +263,16 @@ En bouclant sur `URLSearchParams`, pour chaque nous récupérer un tableau avec 
 -  l'identitiant du champ de saisie 
 -  et sa valeur
    
+  
+<div style="text-align:center">
   <img src="searchparam_loo.png">
+
+  
+Affichage des informations dans la console de débuggage du navigateur 
+  </div>
+
+
+
 
   Pour cibler chaque élément HTML avec son identifiant, nous allons utiliser la fonction `document.getElementById` https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 
@@ -264,10 +286,15 @@ if (element !== null) {
 }
 ```
 
+
+
 ## Lien hypertexte pour l'adresse 
 
 👉 Pour l'adresse, il faudra afficher proposer un lien hypertexte (URL) vers Google Maps en utilisant ce pattern : `https://www.google.com/maps/search/?api=1&query=${addressValue}`
 👉 Pour l'adresse mail, il faudra afficher proposer un lien de courriel en utilisant ce pattern : `mailto:${emailValue}?subject=Hello!&body=What's up?`
+
+
+💡 Pour intégrer facilement des variables dans une chaîne de caractères, nous utilisons les `Template literals` :  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 
 
 ```js
@@ -277,14 +304,16 @@ if (param[0] === "address") {
     }
 ```
 
-  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 
 
   ## Lien de courriel pour l'email 
-  Pour le lien de courriel, nous mettons à jour l'attribut `href` de la balise `<a i>`
+  Pour le lien de courriel, nous mettons à jour l'attribut `href` de la balise `<a href="" id="address" target="_blank"></a>`
 ```js
 if (param[0] === "email") {
-       const emailValue = param[1];
-      element.href = `mailto:${emailValue}?subject=Hello!&body=What's up?`;
-    }
+  const emailValue = param[1];
+  element.href = `mailto:${emailValue}?subject=Hello!&body=What's up?`;
+}
 ```
+
+<hr/>
+<div style="text-align:center"> ~ Fin du TP ~  </div>
