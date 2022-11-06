@@ -1,3 +1,4 @@
+<div  align="center">
 TP2
 ![Logo galille](https://github.com/bilelz/tpaw/blob/master/galilee.png?raw=true)
 
@@ -14,6 +15,7 @@ TP AW #2 : HTML, CSS & Javascript
 
 <img src="tp2-2022_input_ok.png" alt="Cas d'un champ valide"/>
 
+</div>
 
 - [Plate-forme de développement :](#plate-forme-de-développement-)
 - [Spécification des champs de saisie](#spécification-des-champs-de-saisie)
