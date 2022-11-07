@@ -78,10 +78,9 @@ Les champs de saisie, avec leurs contraintes techniques, sont les suivants :
   <input
     type="text"
     name="firstname"
-    id="firstname"
-    required
     minlength="2"
     maxlength="20"
+    required
   />
   <span class="icon-ok">✔</span>
 </p>
