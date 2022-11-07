@@ -45,11 +45,11 @@ Support technique :
 Le formulaire utilisera la méthode d'envoi `get` et enverra les informations saisie à la page "action.html".
 
 Les champs de saisie, avec leurs contraintes techniques, sont les suivants :
-* Nom (type: `text`, id: `name`, minimum: 2 caractères, max: 20 car.)
-* Prénom (type: `text`, id: `firstname`, minimum: 2 caractères, max: 20 car.)
-* Date de naissance (type: `date`, id: `birthday`)
-* Adresse postale (type: `text`, id: `address`, minimum: 5 caractères, max: 50 car.)
-* Adresse mail (type: `email`, id: `email`, minimum: 5 caractères, max: 30 car.)
+* Nom (type: `text`, name: `name`, minimum: 2 caractères, max: 20 car.)
+* Prénom (type: `text`, name: `firstname`, minimum: 2 caractères, max: 20 car.)
+* Date de naissance (type: `date`, name: `birthday`)
+* Adresse postale (type: `text`, name: `address`, minimum: 5 caractères, max: 50 car.)
+* Adresse mail (type: `email`, name: `email`, minimum: 5 caractères, max: 30 car.)
 * 👉Tous ces champs de saisie sont obligatoires (👉 attribut `required` https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/required)
 
 # 1. Formulaire HTML
