@@ -16,6 +16,9 @@ Validation de formulaire et lecture de données en JavaScript.
 - [Plate-forme de développement :](#plate-forme-de-développement-)
 - [Spécification des champs de saisie](#spécification-des-champs-de-saisie)
 - [1. Formulaire HTML](#1-formulaire-html)
+    - [1. Exemple de code pour le champ "prénom" :](#1-exemple-de-code-pour-le-champ-prénom-)
+    - [2. Bouton de soumission de formulaire](#2-bouton-de-soumission-de-formulaire)
+    - [3. Validation du formulaire en HTML5](#3-validation-du-formulaire-en-html5)
 - [2.  Style CSS du formulaire](#2--style-css-du-formulaire)
     - [2.1. Cas du formulaire non valide](#21-cas-du-formulaire-non-valide)
   - [2.2. Cas d'un champ non valide](#22-cas-dun-champ-non-valide)
@@ -68,7 +71,7 @@ Les champs de saisie, avec leurs contraintes techniques, sont les suivants :
      - un label associé
      - un émoji `✔` pour indiquer que la saisie est valide        
 
-Exemple de code HTML pour le champ "prénom" :
+### 1. Exemple de code pour le champ "prénom" :
 ```html
 <p>
   <label for="firstname">Prénom</label>
@@ -85,11 +88,36 @@ Exemple de code HTML pour le champ "prénom" :
 ```
 
   
-  1. Code HTML pour le bouton de validation 
+  ### 2. Bouton de soumission de formulaire 
+  Code HTML pour le bouton de validation 
     
       ```html
       <input type="submit"/>
       ```
+  ### 3. Validation du formulaire en HTML5
+
+
+Grâce à l'attribut `required` utilisé pour tous les champs de saisie, la validation du formulaire se fera directement par le navigateur web.
+
+
+Au clique sur le bouton "Envoyer", le navigateur affichera un message sous le premier champ non valide.
+
+👉Pour plus de détails:  https://developer.mozilla.org/fr/docs/Learn/Forms/Form_validation#utiliser_la_validation_int%C3%A9gr%C3%A9e_au_formulaire
+
+
+<p align="center">
+<img src="input_required.png" alt="validation input">
+<em>Ici le champ "nom" n'a pas assez de caractères</em>
+</p>
+
+
+<p align="center">
+<img src="mail_required.png" alt="validation input">
+<em>Ici le champ "email" n'a pas le bon format d'adresse mail</em>
+</p>
+
+
+
 
 # 2.  Style CSS du formulaire
    <img src="tp2-2022.png" alt="texte pour le titre, facultatif"/>
