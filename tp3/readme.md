@@ -121,17 +121,19 @@ window.onload = function () {   // ce code est exécuter une fois que toute la p
      }
      ```
 
-   * la date de naissance ne peut pas être dans le futur
+   * la date de naissance ne doit pas être dans le futur
      * documentation sur l'objet javascript Date : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date
      * pour `parser` une date : 
        ```js
-       let dateNaissance = new Date(2018, 8, 22); // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#syntaxe
-       let dateNaissanceTimestamp = dateNaissance.getTime();
+       const birthday = document.getElementById('birthday').value
+       const birthdayDate = new Date(birthday); // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#syntaxe
+       const birthdayTimestamp = birthdayDate.getTime();
        ```
      * le timestamp actuel est récupérable avec `Date.now()`, voir https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date/now
        ```js
-       let nowTimestamp = Date.now()
+       const nowTimestamp = Date.now()
        ```
+    * il vous faudra ensuite comparer `birthdayTimestamp` à `nowTimestamp`
 
     
 
