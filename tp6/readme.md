@@ -37,7 +37,7 @@ Avec [Angular](https://angular.io) et [OpenWeatherMap](http://openweathermap.org
 - [5. Gestion de la liste](#5-gestion-de-la-liste)
 - [6. Affichage de la liste](#6-affichage-de-la-liste)
 - [7. Ajout d'une page pour afficher la météo](#7-ajout-dune-page-pour-afficher-la-météo)
-- [8. Ajout un emplacement dans la page principale + une navbar](#8-ajout-un-emplacement-dans-la-page-principale--une-navbar)
+- [8. Ajout un emplacement  dans la page principale + une navbar](#8-ajout-un-emplacement--dans-la-page-principale--une-navbar)
 - [9. Créer le service MeteoService](#9-créer-le-service-meteoservice)
 - [10. Créer le component MeteoDetailComponent](#10-créer-le-component-meteodetailcomponent)
   - [11. Mettre en forme les dates](#11-mettre-en-forme-les-dates)
@@ -112,10 +112,12 @@ ng version
 /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
                |___/
 
-Angular CLI: 1.6.1
-Node: 6.11.3
+Angular CLI: 14.2.10       
+Node: 16.13.1
+Package Manager: npm 8.1.2 
 OS: win32 x64
-Angular:
+
+Angular: 14.2.12
 ...
 ```
 
@@ -130,13 +132,10 @@ Création du projet ```meteo-angular```
 ng new meteo-angular
 ```
 
-Pour les options d'installation, répondez : 
+Pour les options d'installation, répondre : 
 ``` cmd
-? Do you want to enforce stricter type checking and stricter bundle budgets in the workspace?
-  This setting helps improve maintainability and catch bugs ahead of time.
-  For more information, see https://angular.io/strict 👉👉👉 No 👈👈👈
-? Would you like to add Angular routing? 👉👉👉 Yes 👈👈👈 
-? Which stylesheet format would you like to use?  👉👉👉 CSS 👈👈👈
+? Would you like to add Angular routing? 👉 Yes 👈
+? Which stylesheet format would you like to use? 👉 CSS 👈
 ```
 
 Cela va vous créer donc le projet avec cette arborescence :
@@ -183,7 +182,7 @@ npm install --save weather-icons
 
 ```--save``` permet de référencer ces packages dans notre fichier de d'installation ```package.json```
 
-Dans le fichier styles.css ajouter une référence vers les CSS de bootstrap et weather-icons
+Dans le fichier `styles.css` ajouter une référence vers les fichiers CSS de bootstrap et weather-icons
 
 ```css
 @import "~bootstrap/dist/css/bootstrap.min.css";
@@ -316,21 +315,28 @@ Dans le fichier ```src\app\app.module.ts``` ajouter le ainsi:
 ```ts
 // debut du fichier
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
- // <--  Ajouter les références ici
+import { DatePipe } from '@angular/common';
+
+// <-- dans la suite du TP, Ajouter les références aux autres modules ici aussi
 
 import { AppComponent } from './app.component';
 import { MeteoComponent } from './meteo/meteo.component';
+// <-- dans la suite du TP, Ajouter les références à MeteoDetailComponent aussi
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MeteoComponent
+    // <-- dans la suite du TP,ajouter MeteoDetailComponent ici  
+
   ],
   imports: [
     BrowserModule,
-    FormsModule, ReactiveFormsModule //<-- Ajouter les références ici aussi
+    FormsModule, 
+    // <-- dans la suite du TP, Ajouter les références aux autres modules ici
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
@@ -342,10 +348,10 @@ Créer un ficher ```meteoItem.ts```  dans le répertoire src/app/
 
 ```ts
 // src\app\meteoItem.ts
-export interface MeteoItem {
-    id: number;
-    name: string;
-    weather: any
+export class MeteoItem {
+  id?: number;
+  name?: string;
+  weather: any;
 }
 ```
 <div align="center">src\app\meteoItem.ts</div>
@@ -362,9 +368,17 @@ La validation de du texte saisie et les messages d'erreur du formulaire sont gé
 
  <form (ngSubmit)="onSubmit()">
   <div class="input-group">
-    <input type="search" placeholder="Ville ..." id="name" name="name" 
-        class="form-control" required minlength="3"
-        [(ngModel)]="city.name" #name="ngModel">
+    <input
+      type="search"
+      placeholder="Ville ..."
+      id="name"
+      name="name"
+      class="form-control"
+      required
+      minlength="3"
+      [(ngModel)]="city.name"
+      #name="ngModel"
+    />
 
     <span class="input-group-btn">
       <button class="btn btn-primary" type="submit" [disabled]="!name.valid">Go!</button>
@@ -375,13 +389,13 @@ La validation de du texte saisie et les messages d'erreur du formulaire sont gé
   </small>
 
   <div
-    *ngIf="name.invalid && (name.dirty || name.touched) && name.errors"
+    *ngIf="name.invalid && (name.dirty || name.touched)"
     class="alert alert-danger"
   >
-    <div *ngIf="name.errors['required']">
+    <div *ngIf="name.errors && name.errors['required']">
       La saisie de la ville est obligatoire
     </div>
-    <div *ngIf="name.errors['minlength']">
+    <div *ngIf="name.errors && name.errors['minlength']">
       Doit contenit au moins 3 caratères.
     </div>
   </div>
@@ -409,7 +423,7 @@ export class MeteoComponent implements OnInit {
   city: MeteoItem = {
     name: '',
     id: 0,
-    weather: null
+    weather: null,
   };
 
   cityList: MeteoItem[] = [];
@@ -417,56 +431,56 @@ export class MeteoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if( localStorage['cityList'] !== undefined){
-      this.cityList = JSON.parse(localStorage['cityList']);
-    }else{
+    const storedList = localStorage.getItem('cityList');
+
+    if (storedList !== undefined && storedList !== null) {
+      this.cityList = JSON.parse(storedList);
+    } else {
       this.cityList = [];
     }
-   
   }
 
   onSubmit() {
-
-    if (this.isCityExist(this.city.name) === false) {
-      const currentCity: MeteoItem = {
-        name: this.city.name,
-        id: Date.now(), // pour avoir un id unique, on récupère le timestamp de l'heure courante
-        weather: null,
-      };
+    if (
+      this.city.name !== undefined &&
+      this.isCityExist(this.city.name) === false
+    ) {
+      let currentCity = new MeteoItem();
+      currentCity.name = this.city.name;
       this.cityList.push(currentCity);
 
       this.saveCityList();
 
       console.log(this.city.name, 'ajouté à la dans la liste');
-    }else{
+    } else {
       console.log(this.city.name, 'existe déjà dans la liste');
     }
-
   }
 
-  remove(_city: any) {
+  remove(_city: MeteoItem) {
     // on utilise 'filter' pour retourne une liste avec tous les items ayant un nom différent de _city.name
-    this.cityList = this.cityList.filter(item =>
-      item.name != _city.name
+    this.cityList = this.cityList.filter(
+      (item: MeteoItem) => item.name != _city.name
     );
     this.saveCityList();
   }
 
-  isCityExist(_cityName) {
-
+  isCityExist(_cityName: string) {
     // la méthode 'filter' retourne une liste contenant tous les items ayant un nom égale à _cityName
     // doc. sur filter : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/filter
-    if (this.cityList.filter(item =>
-      item.name.toUpperCase() == _cityName.toUpperCase()
-    ).length > 0) {
+    if (
+      this.cityList.filter(
+        (item: MeteoItem) => item.name?.toUpperCase() == _cityName.toUpperCase()
+      ).length > 0
+    ) {
       return true;
     } else {
       return false;
     }
   }
 
-  saveCityList(){
-    localStorage['cityList'] = JSON.stringify(this.cityList);
+  saveCityList() {
+    localStorage.setItem('cityList', JSON.stringify(this.cityList));
   }
 
 }
@@ -534,36 +548,40 @@ La stratégie de navigation se décrit dans la variable ```appRoutes```. Cette v
 
 ```ts
 const appRoutes: Routes = [
-  { 
-    path: 'meteo/:name',  // la page  affichant la météo prendra comme paramètre 'name'
-    component: MeteoDetailComponent }, // Ce component fera l'appel AJAX et afficher les données reçues par openWeatherMap
-  {
-    path: '', // un chemin vide renverra vers '/'
-    redirectTo: '/',
-    pathMatch: 'full'
-  },
   {
     path: '', // la page principale utilisera le component suivant
-    component: MeteoComponent
-  }
+    component: MeteoComponent,
+  },
+  {
+    path: 'meteo/:name', // la page affichant la météo prendra comme paramètre 'name'
+    component: MeteoDetailComponent, // Ce component fera l'appel AJAX et afficher les données reçues par openWeatherMap
+  },
+  {
+    path: '**', // un chemin vers une page inexistante redirigera vers '/'
+    redirectTo: '/',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
+  // ....=
   imports: [
+    // ... 
+    // ajouter ces modules : 
+    AppRoutingModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
-    )
-    // autres imports ici
+    ),
   ],
-  ...
+  // ...
 })
 export class AppModule { }
 ```
 <div align="center">src/app/app.module.ts</div>
 
 
-# 8. Ajout un emplacement dans la page principale + une navbar
+# 8. Ajout un emplacement <router-outlet> dans la page principale + une navbar
 
 Dans la page ```app.component.html```, ajouter l'élément ```<router-outlet></router-outlet>``` pour que le module ```router``` change dynamiquement le contenu de la page suivant l'URL(chemin dans la barre d'adresse du navigateur).
 
@@ -580,9 +598,7 @@ Dans la page ```app.component.html```, ajouter l'élément ```<router-outlet></r
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" routerLink="/">Accueil
-            <span class="sr-only">(current)</span>
-          </a>
+          <a class="nav-link" routerLink="/">Accueil</a>
         </li>
       </ul>
     </div>
@@ -594,7 +610,6 @@ Dans la page ```app.component.html```, ajouter l'élément ```<router-outlet></r
     <h1>
       Welcome to {{ title }}!
     </h1>
-    <!-- <app-meteo></app-meteo> -->
     <router-outlet></router-outlet>
   </div>
 
@@ -668,24 +683,19 @@ Copier ce code qui utilise la méthode meteoService.getMeteo pour valoriser la v
 ```ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import {MeteoService} from '../services/meteo.service'
-import { DatePipe } from '@angular/common';
-
+import { MeteoService } from '../services/meteo.service';
 
 @Component({
   selector: 'app-meteo-detail',
   templateUrl: './meteo-detail.component.html',
-  styleUrls: ['./meteo-detail.component.css']
+  styleUrls: ['./meteo-detail.component.css'],
 })
 export class MeteoDetailComponent implements OnInit {
-
-  meteo : any;
+  meteo: any;
 
   constructor(
     private route: ActivatedRoute,
-    private meteoService: MeteoService,
-    private location: Location
+    private meteoService: MeteoService
   ) {}
 
   ngOnInit() {
@@ -693,20 +703,20 @@ export class MeteoDetailComponent implements OnInit {
   }
 
   getMeteo(): void {
-    const name = this.route.snapshot.paramMap.get('name'); 
     // pour lire la paramètre 'name' dans l'URL de la page  comme définit dans le router avec
     // path: 'meteo/:name'
+    const name = this.route.snapshot.paramMap.get('name');
 
-    console.log('getmeteo',name);
-    if(name)
-    {
-      this.meteoService.getMeteo(name)
-      .then(meteo => this.meteo = meteo)
-      .catch(fail => this.meteo = fail);
+    console.log('getmeteo pour', name);
+    if (name) {
+      this.meteoService
+        .getMeteo(name)
+        .then((response) => (this.meteo = response))
+        .catch((fail) => (this.meteo = fail));
     }
   }
-
 }
+
 ```
 <div align="center">app\meteo-detail\meteo-detail.component.ts</div>
 
@@ -728,10 +738,20 @@ Code HTML pour mettre en forme les données reçues :
 
   <div class="card" style="width:300px; margin: 0 auto" v-if="meteo">
     <div class="card-header">
-      {{meteo.name}} @{{meteo.dt | date:'H:mm'}}
+      {{ meteo.name }} / {{ meteo.dt * 1000 | date : "EEEE d LLLL HH:mm" }}
     </div>
-    <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?markers={{meteo.coord.lat}},{{meteo.coord.lon}}&zoom=5&size=400x300&scale=2&key=AIzaSyAkmvI9DazzG9p77IShsz_Di7-5Qn7zkcg"
-      alt="Card image cap">
+    <a
+      href="http://maps.google.com/maps?q={{ latlon }}&ll={{ latlon }}&z=5"
+      target="_blank"
+    >
+      <img
+        class="card-img-top"
+        src="https://maps.googleapis.com/maps/api/staticmap?markers={{
+          latlon
+        }}&zoom=5&size=400x300&scale=2&key=AIzaSyAkmvI9DazzG9p77IShsz_Di7-5Qn7zkcg"
+        alt="Card image cap"
+      />
+    </a>
     <div class="card-body">
       <h5 class="card-title">
         <i v-bind:class="'wi wi-owm-day-'+meteo.weather[0].id"></i>
