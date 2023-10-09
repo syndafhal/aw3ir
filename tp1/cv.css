@@ -1,0 +1,59 @@
+
+body {
+    background-color: #f0f0f0;
+    font-family: 'system', -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+    font-size: 16px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  
+  h1 {
+    font-family: verdana;
+    font-size: 40px;
+    color: #293980; 
+  }
+  
+  
+
+  h4 {
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  div {
+    border: 1px solid black;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #cdc3f5; 
+  }
+  
+
+  ul {
+    list-style-type: square;
+    margin-left: 20px;
+  }
+  
+
+  ul:nth-child(4) { 
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+
+  table {
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #fff; 
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+  }
+  
+
+  ul:nth-child(6), ul:nth-child(7) { 
+    list-style-type: circle;
+    margin-left: 20px;
+  }
+  
