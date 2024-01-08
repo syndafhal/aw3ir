@@ -17,6 +17,8 @@
     <!-- librairie Javascript de boostrap pour pouvoir utiliser les composants interactifs (modal https://getbootstrap.com/docs/5.1/components/modal/ , collapse...) -->
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/form-validation.js"></script>
+    <script src="js/gps.js"></script>
+    <script src="js/store.js"></script>
 
     <style>
         body {
@@ -45,13 +47,15 @@
             <div class="row mb-3">
               <label for="inputFirstName3" class="col-sm-2 col-form-label">Prénom</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputFirstName3">
-              </div>
+                <input type="text" class="form-control" id="inputFirstName3" oninput="calcNbChar(this.id)">
+                <span id="inputFirstName3_count"></span> <!-- balise mise à jour dynamiquement en JS -->
+            </div>
             </div>
             <div class="row mb-3">
               <label for="inputLastName3" class="col-sm-2 col-form-label">Nom</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputLastName3">
+                <input type="text" class="form-control" id="inputLastName3" oninput="calcNbChar(this.id)">
+                <span id="inputLastName3_count"></span> <!-- balise mise à jour dynamiquement en JS -->
               </div>
             </div>
             <div class="row mb-3">
@@ -63,17 +67,30 @@
               <div class="row mb-3">
                 <label for="inputAddress" class="col-sm-2 col-form-label">Adresse</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputAddress">
+                    <!-- Utilisation de la classe "input-group" pour grouper le champ de saisie et le bouton -->
+                    <div class="input-group">
+                        <!-- Champ de saisie -->
+                        <input type="text" class="form-control" id="inputAddress" oninput="calcNbChar(this.id)">
+                        <span id="inputAddress_count",></span> <!-- balise mise à jour dynamiquement en JS -->
+                        
+                        <!-- Bouton GPS à l'intérieur du champ de saisie -->
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnGPS">GPS</button>
+                    </div>
                 </div>
-              </div>
+                <div id="map"></div>
+            </div>
               <div class="row mb-3">
                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputEmail">
+                  <input type="text" class="form-control" id="inputEmail" oninput="calcNbChar(this.id)">
+                  <span id="inputEmail_count"></span> <!-- balise mise à jour dynamiquement en JS -->
                 </div>
               </div>
+              <button type="reset" class="btn btn-secondary">Réinitialiser</button>
             <button type="submit" class="btn btn-primary">Valider</button>
           </form>
+          <h1>Liste des contacts </h1>
+          <div id="contactTable"></div>
         <!-- Content here -->
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

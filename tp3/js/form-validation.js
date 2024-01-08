@@ -1,3 +1,6 @@
+function calcNbChar(id) {
+    document.querySelector(`#${id}_count`).textContent = document.querySelector(`#${id}`).value.length;
+}
 window.onload = function () {
     console.log("DOM ready!");
 
@@ -39,11 +42,13 @@ window.onload = function () {
             return;
         }
 
-        displayWelcomeModal(firstName, lastName, dateOfBirth, address);
+        displayWelcomeModal(firstName, lastName, dateOfBirth, address,email);
+        getLocation();
+        print (getLocation());
     });
 
    
-    function displayWelcomeModal(firstName, lastName, dateOfBirth, address) {
+    function displayWelcomeModal(firstName, lastName, dateOfBirth, address, email) {
         const modalTitle = document.getElementById("modalTitle");
         const modalMessage = document.getElementById("modalMessage");
 
@@ -53,6 +58,12 @@ window.onload = function () {
         
         const modal = new bootstrap.Modal(document.getElementById("myModal"));
         modal.show();
+        
+        // Ajout du contact à la liste
+        contactStore.add(lastName, firstName, dateOfBirth, address, email);
+
+        // Mise à jour du tableau HTML
+        document.getElementById("contactTable").innerHTML = contactStore.displayContactList();
     }
 
    
@@ -60,6 +71,7 @@ window.onload = function () {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
+
 
    
     function displayModal(title, message) {
@@ -73,4 +85,12 @@ window.onload = function () {
         const modal = new bootstrap.Modal(document.getElementById("myModal"));
         modal.show();
     }
+
+    // Ajout d'un gestionnaire de clic pour le bouton GPS
+const btnGPS = document.getElementById("btnGPS");
+
+btnGPS.addEventListener("click", function () {
+    // Appel à la fonction getLocation() lorsque le bouton GPS est cliqué
+    getLocation();
+});
 };
